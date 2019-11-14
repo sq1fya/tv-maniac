@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Show, ShowResponse } from '../../models/tv.models'
+import { ShowTitle } from '../../components/ShowTitle/ShowTitle'
+import { Poster } from '../../components/Poster/Poster'
 
 type State = {
   clickCt: number
@@ -15,9 +17,13 @@ export class SearchPage extends Component<{}, State> {
     shows: [],
   }
 
+  componentDidMount(): void {
+    this.handleClick()
+  }
+
   handleClick = () => {
     this.setState({ clickCt: this.state.clickCt + 1 })
-    const url = 'https://api.tvmaze.com/search/shows?q=batman'
+    const url = 'https://api.tvmaze.com/search/shows?q=flash'
     axios
       .get<ShowResponse[]>(url)
       .then(({ data }) =>
@@ -37,8 +43,6 @@ export class SearchPage extends Component<{}, State> {
         <section className="col">
           <h1 className="h3">Search {this.state.clickCt}</h1>
 
-          <pre>{JSON.stringify(this.state.shows, null, 2)}</pre>
-
           <div className="input-group">
             <input type="search" className="form-control" />
             <div className="input-group-append">
@@ -46,6 +50,19 @@ export class SearchPage extends Component<{}, State> {
                 search
               </button>
             </div>
+          </div>
+
+          {/*{this.state.shows[0] && (*/}
+          {/*  <ShowTitle title={this.state.shows[0].name} />*/}
+          {/*)}*/}
+
+          <div className="row">
+            {this.state.shows.map(show => (
+              <div className="col col-4" key={show.id}>
+                {/*<Poster image={show.image} name={show.name} />*/}
+                <Poster {...show} />
+              </div>
+            ))}
           </div>
         </section>
       </div>
