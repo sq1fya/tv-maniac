@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import { Show, ShowResponse } from '../../models/tv.models'
 
-export class SearchPage extends Component {
-  state = {
+type State = {
+  clickCt: number
+  shows: Show[]
+}
+
+export class SearchPage extends Component<{}, State> {
+  title: 'Hello'
+
+  state: State = {
     clickCt: 0,
     shows: [],
   }
@@ -10,7 +18,11 @@ export class SearchPage extends Component {
   handleClick = () => {
     this.setState({ clickCt: this.state.clickCt + 1 })
     const url = 'https://api.tvmaze.com/search/shows?q=batman'
-    axios.get(url).then(({ data }) => this.setState({ shows: data }))
+    axios
+      .get<ShowResponse[]>(url)
+      .then(({ data }) =>
+        this.setState({ shows: data.map(({ show }) => show) }),
+      )
   }
 
   render() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.scss'
+import { hello } from './tsdemo'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
