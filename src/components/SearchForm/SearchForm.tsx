@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import styles from './SearchForm.module.scss'
 
 {
   /*<SearchForm initialQuery="batman" onSubmit={(query) => this.search(query)} />*/
@@ -20,7 +21,7 @@ export class SearchForm extends Component<Props, State> {
 
   render() {
     return (
-      <form className="input-group mb-3">
+      <form className={`input-group mb-3 ${styles.search}`}>
         <input
           type="search"
           value={this.state.query}

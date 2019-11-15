@@ -1,0 +1,13 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+// Read more:
+// https://www.smashingmagazine.com/2018/05/css-custom-properties-strategy-guide/
+
+.search {
+  --gray: #bada55;
+  //--gray: #{$primary};
+  background: $gray-300;
+  padding: 10px;
+  background: var(--gray, tomato);
+}
