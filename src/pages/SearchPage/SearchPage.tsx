@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, MouseEvent } from 'react'
 import axios from 'axios'
 import { Show, ShowResponse } from '../../models/tv.models'
 import { ShowTitle } from '../../components/ShowTitle/ShowTitle'
 import { Poster } from '../../components/Poster/Poster'
+import { SearchForm } from '../../components/SearchForm/SearchForm'
 
 type State = {
   clickCt: number
@@ -18,12 +19,11 @@ export class SearchPage extends Component<{}, State> {
   }
 
   componentDidMount(): void {
-    this.handleClick()
+    this.search('batman')
   }
 
-  handleClick = () => {
-    this.setState({ clickCt: this.state.clickCt + 1 })
-    const url = 'https://api.tvmaze.com/search/shows?q=flash'
+  search = (query: string) => {
+    const url = `https://api.tvmaze.com/search/shows?q=${query}`
     axios
       .get<ShowResponse[]>(url)
       .then(({ data }) =>
@@ -32,7 +32,7 @@ export class SearchPage extends Component<{}, State> {
   }
 
   render() {
-    // console.count('Render')
+    console.count('Render')
 
     return (
       <div className="row">
@@ -43,18 +43,10 @@ export class SearchPage extends Component<{}, State> {
         <section className="col">
           <h1 className="h3">Search {this.state.clickCt}</h1>
 
-          <div className="input-group">
-            <input type="search" className="form-control" />
-            <div className="input-group-append">
-              <button onClick={this.handleClick} className="btn btn-primary">
-                search
-              </button>
-            </div>
-          </div>
-
-          {/*{this.state.shows[0] && (*/}
-          {/*  <ShowTitle title={this.state.shows[0].name} />*/}
-          {/*)}*/}
+          <SearchForm
+            initialQuery="batman"
+            onSubmit={query => this.search(query)}
+          />
 
           <div className="row">
             {this.state.shows.map(show => (
