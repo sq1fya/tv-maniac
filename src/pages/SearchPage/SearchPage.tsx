@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { Show, ShowResponse } from '../../models/tv.models'
 import { Poster } from '../../components/Poster/Poster'
 import { SearchForm } from '../../components/SearchForm/SearchForm'
 import { Badge } from '../../components/Badge/Badge'
+import { PreferencesContext } from '../../context/PreferencesContext'
 
 export const SearchPage = () => {
   const [shows, setShows] = useState<Show[]>([])
+
+  const { initialQuery } = useContext(PreferencesContext)
 
   useEffect(() => {
     const daj = setInterval(() => console.log('daj'), 1000)
@@ -16,11 +19,11 @@ export const SearchPage = () => {
   })
 
   useEffect(() => {
-    search('batman')
+    search(initialQuery)
     return () => {
       console.log('destroy!')
     }
-  }, [])
+  }, [initialQuery])
 
   const search = (query: string) => {
     const url = `https://api.tvmaze.com/search/shows?q=${query}`
@@ -40,7 +43,10 @@ export const SearchPage = () => {
           Search <Badge value={shows.length} />
         </h1>
 
-        <SearchForm initialQuery="batman" onSubmit={query => search(query)} />
+        <SearchForm
+          initialQuery={initialQuery}
+          onSubmit={query => search(query)}
+        />
 
         <div className="row">
           {shows.map(show => (

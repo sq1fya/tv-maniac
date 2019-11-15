@@ -5,10 +5,18 @@ import { hello } from './tsdemo'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import { HashRouter } from 'react-router-dom'
+import { PreferencesContext } from './context/PreferencesContext'
 
 ReactDOM.render(
   <HashRouter>
-    <App />
+    <PreferencesContext.Provider
+      value={{
+        initialQuery: 'batman',
+        perPage: 10,
+      }}
+    >
+      <App />
+    </PreferencesContext.Provider>
   </HashRouter>,
   document.getElementById('root'),
 )
