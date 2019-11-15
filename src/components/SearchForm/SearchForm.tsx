@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { FC, MouseEvent, useState } from 'react'
 import styles from './SearchForm.module.scss'
 
 type Props = {
@@ -6,36 +6,27 @@ type Props = {
   onSubmit: (query: string) => void
 }
 
-type State = {
-  query: string
-}
+export const SearchForm: FC<Props> = ({ onSubmit, initialQuery }) => {
+  const [query, setQuery] = useState(initialQuery)
 
-export class SearchForm extends Component<Props, State> {
-  state: State = {
-    query: this.props.initialQuery,
+  const handleClick = (event: MouseEvent) => {
+    event.preventDefault()
+    onSubmit(query)
   }
 
-  render() {
-    return (
-      <form className={`input-group mb-3 ${styles.search}`}>
-        <input
-          type="search"
-          value={this.state.query}
-          className="form-control"
-          onChange={event => this.setState({ query: event.target.value })}
-        />
-        <div className="input-group-append">
-          <button
-            onClick={event => {
-              event.preventDefault()
-              this.props.onSubmit(this.state.query)
-            }}
-            className="btn btn-primary"
-          >
-            search
-          </button>
-        </div>
-      </form>
-    )
-  }
+  return (
+    <form className={`input-group mb-3 ${styles.search}`}>
+      <input
+        type="search"
+        value={query}
+        className="form-control"
+        onChange={event => setQuery(event.target.value)}
+      />
+      <div className="input-group-append">
+        <button onClick={handleClick} className="btn btn-primary">
+          search
+        </button>
+      </div>
+    </form>
+  )
 }
