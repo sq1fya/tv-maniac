@@ -32,7 +32,7 @@ export class SearchPage extends Component<{}, State> {
   }
 
   render() {
-    console.count('Render')
+    // console.count('Render')
 
     return (
       <div className="row">
