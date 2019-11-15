@@ -4,6 +4,7 @@ import { Show, ShowResponse } from '../../models/tv.models'
 import { ShowTitle } from '../../components/ShowTitle/ShowTitle'
 import { Poster } from '../../components/Poster/Poster'
 import { SearchForm } from '../../components/SearchForm/SearchForm'
+import { Badge } from '../../components/Badge/Badge'
 
 type State = {
   clickCt: number
@@ -41,7 +42,9 @@ export class SearchPage extends Component<{}, State> {
         </section>
 
         <section className="col">
-          <h1 className="h3">Search {this.state.clickCt}</h1>
+          <h1 className="h3 d-flex">
+            Search <Badge value={this.state.shows.length} />
+          </h1>
 
           <SearchForm
             initialQuery="batman"

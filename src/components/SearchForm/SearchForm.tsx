@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
 import styles from './SearchForm.module.scss'
 
-{
-  /*<SearchForm initialQuery="batman" onSubmit={(query) => this.search(query)} />*/
-}
-
 type Props = {
   initialQuery?: string
   onSubmit: (query: string) => void
