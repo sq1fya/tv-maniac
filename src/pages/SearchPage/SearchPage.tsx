@@ -7,12 +7,9 @@ import { Badge } from '../../components/Badge/Badge'
 import { PreferencesContext } from '../../context/PreferencesContext'
 import { connect } from 'react-redux'
 import { RootState } from '../../store/reducers'
-import { Bookmark, BookmarkId } from '../../models/bookmarks.models'
-import { Dispatch } from 'redux'
-import {
-  bookmarkAdd,
-  bookmarkRemove,
-} from '../../store/actions/bookmarks.actions'
+import { Bookmark } from '../../models/bookmarks.models'
+import { BookmarkAdd } from '../../components/BookmarkAdd/BookmarkAdd'
+import { BookmarkRemove } from '../../components/BookmarkRemove/BookmarkRemove'
 
 type OwnProps = {}
 
@@ -20,15 +17,11 @@ type StateProps = {
   bookmarks: ReadonlyArray<Bookmark>
 }
 
-type DispatchProps = {
-  save: (bookmark: Bookmark) => void
-  remove: (id: BookmarkId) => void
-}
-
-type Props = OwnProps & StateProps & DispatchProps
+type Props = OwnProps & StateProps
 
 const SearchPage = (props: Props) => {
   const [shows, setShows] = useState<Show[]>([])
+  // const bookmarks = useSelector((state: RootState) => state.bookmarks.items)
 
   const { initialQuery } = useContext(PreferencesContext)
 
@@ -79,14 +72,9 @@ const SearchPage = (props: Props) => {
         <div className="row">
           {shows.map(show => (
             <div className="col col-4" key={show.id}>
-              {/*<Poster image={show.image} name={show.name} />*/}
               <Poster {...show}>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => props.save(show)}
-                >
-                  add
-                </button>
+                <BookmarkAdd item={show} />
+                <BookmarkRemove id={show.id} />
               </Poster>
             </div>
           ))}
@@ -100,14 +88,8 @@ const mapStateToProps = ({ bookmarks }: RootState) => ({
   bookmarks: bookmarks.items,
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  save: (bookmark: Bookmark) => dispatch(bookmarkAdd(bookmark)),
-  remove: (id: BookmarkId) => dispatch(bookmarkRemove(id)),
-})
-
-const ConnectedSearchPage = connect<StateProps, DispatchProps, OwnProps>(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SearchPage)
+const ConnectedSearchPage = connect<StateProps, {}, OwnProps>(mapStateToProps)(
+  SearchPage,
+)
 
 export { ConnectedSearchPage as SearchPage }
