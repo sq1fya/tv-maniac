@@ -13,6 +13,7 @@ import {
   calculatorRemove,
 } from './store/actions/calculator.actions'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import { Provider } from 'react-redux'
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()))
 store.subscribe(() => console.log('Update', store.getState()))
@@ -31,7 +32,9 @@ ReactDOM.render(
         perPage: 10,
       }}
     >
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </PreferencesContext.Provider>
   </HashRouter>,
   document.getElementById('root'),

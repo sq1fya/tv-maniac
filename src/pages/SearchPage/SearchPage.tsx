@@ -5,17 +5,38 @@ import { Poster } from '../../components/Poster/Poster'
 import { SearchForm } from '../../components/SearchForm/SearchForm'
 import { Badge } from '../../components/Badge/Badge'
 import { PreferencesContext } from '../../context/PreferencesContext'
+import { connect } from 'react-redux'
+import { RootState } from '../../store/reducers'
+import { Bookmark, BookmarkId } from '../../models/bookmarks.models'
+import { Dispatch } from 'redux'
+import {
+  bookmarkAdd,
+  bookmarkRemove,
+} from '../../store/actions/bookmarks.actions'
 
-export const SearchPage = () => {
+type OwnProps = {}
+
+type StateProps = {
+  bookmarks: ReadonlyArray<Bookmark>
+}
+
+type DispatchProps = {
+  save: (bookmark: Bookmark) => void
+  remove: (id: BookmarkId) => void
+}
+
+type Props = OwnProps & StateProps & DispatchProps
+
+const SearchPage = (props: Props) => {
   const [shows, setShows] = useState<Show[]>([])
 
   const { initialQuery } = useContext(PreferencesContext)
 
   useEffect(() => {
-    const daj = setInterval(() => console.log('daj'), 1000)
-    return () => {
-      clearInterval(daj)
-    }
+    // const daj = setInterval(() => console.log('daj'), 1000)
+    // return () => {
+    //   clearInterval(daj)
+    // }
   })
 
   useEffect(() => {
@@ -36,6 +57,13 @@ export const SearchPage = () => {
     <div className="row">
       <section className="col col-3">
         <h2 className="h3">Bookmarks</h2>
+        <div className="row">
+          {props.bookmarks.map(show => (
+            <div className="col col-6" key={show.id}>
+              <Poster {...(show as Show)} />
+            </div>
+          ))}
+        </div>
       </section>
 
       <section className="col">
@@ -52,7 +80,14 @@ export const SearchPage = () => {
           {shows.map(show => (
             <div className="col col-4" key={show.id}>
               {/*<Poster image={show.image} name={show.name} />*/}
-              <Poster {...show} />
+              <Poster {...show}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => props.save(show)}
+                >
+                  add
+                </button>
+              </Poster>
             </div>
           ))}
         </div>
@@ -60,3 +95,19 @@ export const SearchPage = () => {
     </div>
   )
 }
+
+const mapStateToProps = ({ bookmarks }: RootState) => ({
+  bookmarks: bookmarks.items,
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  save: (bookmark: Bookmark) => dispatch(bookmarkAdd(bookmark)),
+  remove: (id: BookmarkId) => dispatch(bookmarkRemove(id)),
+})
+
+const ConnectedSearchPage = connect<StateProps, DispatchProps, OwnProps>(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SearchPage)
+
+export { ConnectedSearchPage as SearchPage }
