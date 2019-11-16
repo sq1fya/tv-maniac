@@ -17,9 +17,11 @@ export const bookmarks = (
   action: BookmarksAction,
 ): State => {
   switch (action.type) {
-    case getType(bookmarksAction.bookmarkAdd):
+    case getType(bookmarksAction.bookmarksFetchFulfilled):
+      return { ...state, items: action.payload }
+    case getType(bookmarksAction.bookmarkAddFulfilled):
       return { ...state, items: [...state.items, action.payload] }
-    case getType(bookmarksAction.bookmarkRemove):
+    case getType(bookmarksAction.bookmarkRemoveFulfilled):
       return {
         ...state,
         items: state.items.filter(item => item.id !== action.payload),

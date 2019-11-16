@@ -14,15 +14,29 @@ import {
 } from './store/actions/calculator.actions'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { Provider } from 'react-redux'
+import promiseMiddleware from 'redux-promise-middleware'
+import { bookmarksFetch } from './store/actions/bookmarks.actions'
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware()))
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(promiseMiddleware)),
+)
 store.subscribe(() => console.log('Update', store.getState()))
+
+store.dispatch(bookmarksFetch())
 
 store.dispatch(calculatorAdd(2))
 store.dispatch(calculatorAdd(5))
 store.dispatch(calculatorClear())
 
-setTimeout(() => store.dispatch(calculatorRemove(4)), 2000)
+// store.dispatch({
+//   type: 'COSTAM',
+//   payload: new Promise((resolve, reject) =>
+//     setTimeout(() => reject('tu dane mamy'), 2000),
+//   ),
+// })
+
+// setTimeout(() => store.dispatch(calculatorRemove(4)), 2000)
 
 ReactDOM.render(
   <HashRouter>
