@@ -1,15 +1,7 @@
-import { AnyAction } from 'redux'
+import { createAction } from 'typesafe-actions'
 
-export const calculatorAdd = (value: number): AnyAction => ({
-  type: 'CALCULATOR/ADD',
-  payload: value,
-})
+export const calculatorAdd = createAction('calculator/ADD')<number>()
 
-export const calculatorRemove = (value: number): AnyAction => ({
-  type: 'CALCULATOR/REMOVE',
-  payload: value,
-})
+export const calculatorRemove = createAction('calculator/REMOVE')<number>()
 
-export const calculatorClear = (): AnyAction => ({
-  type: 'CALCULATOR/CLEAR',
-})
+export const calculatorClear = createAction('calculator/CLEAR')<void>()

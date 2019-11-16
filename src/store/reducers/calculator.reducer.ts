@@ -1,4 +1,8 @@
 import { AnyAction } from 'redux'
+import * as calculatorAction from '../actions/calculator.actions'
+import { ActionType, getType } from 'typesafe-actions'
+
+type CalculatorAction = ActionType<typeof calculatorAction>
 
 interface State {
   total: number
@@ -9,13 +13,16 @@ const initialState: State = {
   total: 0,
 }
 
-export const calculator = (state = initialState, action: AnyAction): State => {
+export const calculator = (
+  state = initialState,
+  action: CalculatorAction,
+): State => {
   switch (action.type) {
-    case 'CALCULATOR/ADD':
+    case getType(calculatorAction.calculatorAdd):
       return { ...state, total: state.total + action.payload }
-    case 'CALCULATOR/REMOVE':
+    case getType(calculatorAction.calculatorRemove):
       return { ...state, total: state.total - action.payload }
-    case 'CALCULATOR/CLEAR':
+    case getType(calculatorAction.calculatorClear):
       return { ...initialState }
     default:
       return state
