@@ -26,3 +26,23 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 
 serviceWorker.unregister()
+
+// const values = [
+//   {type: 'ADD', payload: 1},
+//   {type: 'REMOVE', payload: 4},
+//   {type: 'CLEAR'},
+//   {type: 'REMOVE', payload: 2},
+// ]
+// const initialState = 0;
+//
+// const endState = values.reduce((state, action) => {
+//   switch (action.type) {
+//     case 'ADD':
+//       return state + action.payload;
+//     case 'REMOVE':
+//       return state - action.payload;
+//     case 'CLEAR':
+//       return 0;
+//   }
+//   return state;
+// }, initialState)
